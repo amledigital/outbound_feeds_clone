@@ -30,29 +30,13 @@
   "values": {
     "default": {
       "siteProperties": {
-        "feedDomainURL": "http://localhost",
-        "resizerURL": "http://localhost/resizer",
+        "feedDomainURL": "https://910.ledigital.dev",
+        "resizerURL": "https://910.ledigital.dev/resizer",
         "feedTitle": "Outbound Feeds",
         "feedLanguage": "en"
       }
     },
     "sites": {
-      "website1": {
-        "siteProperties": {
-          "feedDomainURL": "https://www.website1.com",
-          "resizerURL": "https://www.website1.com/resizer",
-          "feedTitle": "wwebsite 1",
-          "feedLanguage": "en"
-        }
-      },
-      "website2": {
-        "siteProperties": {
-          "feedDomainURL": "https://www.website2.com",
-          "resizerURL": "https://www.website2.com/resizer",
-          "feedTitle": "website 2",
-          "feedLanguage": "es"
-        }
-      }
     }
   }
 }
