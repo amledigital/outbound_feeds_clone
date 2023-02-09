@@ -30,8 +30,8 @@
   "values": {
     "default": {
       "siteProperties": {
-        "feedDomainURL": "https://910.ledigital.dev",
-        "resizerURL": "https://910.ledigital.dev/resizer",
+        "feedDomainURL": "https://www.9and10news.com",
+        "resizerURL": "https://www.9and10news.com/resizer",
         "feedTitle": "Outbound Feeds",
         "feedLanguage": "en"
       }
