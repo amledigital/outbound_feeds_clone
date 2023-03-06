@@ -130,6 +130,9 @@ const rssTemplate = (
           pubDate: moment
             .utc(s[pubDate])
             .format('ddd, DD MMM YYYY HH:mm:ss ZZ'),
+          modified: moment
+            .utc(s.last_updated_date)
+            .format('ddd, DD MMM YYYY HH:mm:ss ZZ'),
           ...(itemCategory &&
             (category = jmespath.search(s, itemCategory)) &&
             category && { primary_category: { $: category } }),
