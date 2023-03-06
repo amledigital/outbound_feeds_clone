@@ -130,6 +130,9 @@ const rssTemplate = (
           pubDate: moment
             .utc(s[pubDate])
             .format('ddd, DD MMM YYYY HH:mm:ss ZZ'),
+          modified: moment
+            .utc(s.last_updated_date)
+            .format('ddd, DD MMM YYYY HH:mm:ss ZZ'),
           ...(itemCategory &&
             (category = jmespath.search(s, itemCategory)) &&
             category && { primary_category: { $: category } }),
@@ -157,7 +160,7 @@ const rssTemplate = (
               },
             }),
           ...(includePromo && img && { '#': img }),
-          ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_embed: { $: s.promo_items.lead_art.embed_html }}),
+          // ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_embed: { $: s.promo_items.lead_art.embed_html }}),
           ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_id: s.promo_items.lead_art._id})
         }
       }),
