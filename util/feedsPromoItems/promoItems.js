@@ -110,6 +110,47 @@ export function BuildPromoItems() {
     }))
   }
 
+
+  this.mediaThumbnailTag = (options) => {
+    let imgs = this.parse(options)
+    if (!imgs) return
+    if (imgs && !Array.isArray(imgs)) imgs = [imgs]
+
+    return imgs.map((img) => ({
+      'media:thumbnail': {
+        '@url': img.url,
+        ...(img.height && {
+          '@height': img.height,
+        }),
+        ...(img.width && {
+          '@width': img.width,
+        }),
+      },
+    }))
+  }
+  
+  this.leadArtImage = (options) => {
+    let imgs = this.parse(options)
+    if (!imgs) return
+    if (imgs && Array.isArray(imgs)) imgs = imgs[0];
+
+    return `<img src="${imgs.url}" width="${imgs.width}" height="${imgs.height}" />`;
+  }
+  
+  this.leadArtVideo = (options) => {
+    let imgs = this.parse(options)
+    if (!imgs) return
+    if (imgs && Array.isArray(imgs)) imgs = imgs[0];
+
+      return (
+        `<figure>
+          <video width="${imgs.width}" height="${imgs.height}" poster="${imgs.thumbnail}" controls>
+            <source src="${imgs.url}" type="${imgs.type}" />
+          </video>
+        </figure>`
+      )
+  }
+
   /* RSS <enclosure> tag generator
     supports single or list of media; url, type, filesize
     the RSS spec isn't clear on support for multiple enclosures
