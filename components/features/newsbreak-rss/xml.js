@@ -114,18 +114,18 @@ const rssTemplate = (
           videoSelect,
         });
 
-        const img = PromoItems.mediaTag({
-          ans: s,
-          promoItemsJmespath,
-          resizerKey,
-          resizerURL,
-          resizerWidth,
-          resizerHeight,
-          imageTitle,
-          imageCaption,
-          imageCredits,
-          videoSelect,
-        })
+        // const img = PromoItems.mediaTag({
+        //   ans: s,
+        //   promoItemsJmespath,
+        //   resizerKey,
+        //   resizerURL,
+        //   resizerWidth,
+        //   resizerHeight,
+        //   imageTitle,
+        //   imageCaption,
+        //   imageCredits,
+        //   videoSelect,
+        // })
         
         const leadArt = PromoItems.leadArtImage({
           ans: s,
