@@ -98,7 +98,7 @@ const rssTemplate = (
       item: elements.map((s) => {
         let author, body, category
         const url = `${domain}${s.website_url || s.canonical_url || ''}`
-        const img = PromoItems.mediaTag({
+        const img = PromoItems.mediaTagPugPig({
           ans: s,
           promoItemsJmespath,
           resizerKey,

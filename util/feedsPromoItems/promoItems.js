@@ -110,6 +110,53 @@ export function BuildPromoItems() {
     }))
   }
 
+  this.mediaTagPugPig = (options) => {
+    let imgs = this.parse(options)
+    if (!imgs) return
+    if (imgs && !Array.isArray(imgs)) imgs = [imgs]
+
+    return imgs.map((img) => ({
+      'media:content': {
+        '@url': img.url,
+        '@type': img.type,
+        ...(img.duration && {
+          '@duration': img.duration,
+        }),
+        'media:category': img.medium,
+        ...(img.bitrate && {
+          '@bitrate': img.bitrate,
+        }),
+        ...(img.height && {
+          '@height': img.height,
+        }),
+        ...(img.width && {
+          '@width': img.width,
+        }),
+        ...(img.filesize && {
+          '@fileSize': img.filesize,
+        }),
+        ...(img.caption && {
+          'media:description': { '@type': 'plain', $: img.caption },
+        }),
+        ...(img.title && {
+          'media:title': { $: img.title },
+        }),
+        ...(img.credits && {
+          'media:credit': {
+            '@role': 'author',
+            '@scheme': 'urn:ebu',
+            '#': img.credits.join(','),
+          },
+        }),
+        ...(img.thumbnail && {
+          'media:thumbnail': {
+            '@url': img.thumbnail,
+          },
+        }),
+      },
+    }))
+  }
+
 
   this.mediaThumbnailTag = (options) => {
     let imgs = this.parse(options)
