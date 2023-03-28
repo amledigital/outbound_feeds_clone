@@ -156,7 +156,8 @@ const rssTemplate = (
             )) &&
             body && {
               'content:encoded': {
-                $: body,
+                $0: (s.subheadlines?.basic ? `<h2>${s.subheadlines.basic}</h2>` : ''),
+                $1: body,
               },
             }),
           ...(includePromo && img && { '#': img }),
