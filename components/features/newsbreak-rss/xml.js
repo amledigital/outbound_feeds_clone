@@ -202,7 +202,8 @@ const rssTemplate = (
               'content:encoded': {
                 ...(leadArtVideo && s?.promo_items?.lead_art?.type==='video' && { $Video: leadArtVideo }),
                 ...(leadArt && s?.promo_items?.lead_art?.type==='image' && { $Image: leadArt }),
-                $: body,
+                $0: (s.subheadlines?.basic ? `<h2>${s.subheadlines.basic}</h2>` : ''),
+                $1: body,
               },
             }),
           ...(includePromo && thumbnail && { '#': thumbnail }),
