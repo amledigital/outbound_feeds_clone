@@ -302,6 +302,7 @@ export function BuildContent() {
                 ...(videoStream.height && { height: videoStream.height }),
                 ...(videoStream.width && { width: videoStream.width }),
                 ...(promoItems.url && { poster: promoItems.url }),
+                controls: true
               },
               source: {
                 '@': {
