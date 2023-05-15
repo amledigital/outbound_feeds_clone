@@ -42,6 +42,7 @@ const rssTemplate = (
     channelLanguage,
     rssBuildContent,
     PromoItems,
+    timelineThumbnailJmespath
   },
 ) => ({
   rss: {
@@ -110,6 +111,18 @@ const rssTemplate = (
           imageCredits,
           videoSelect,
         })
+        const timelineThumbnail = PromoItems.timelineThumbnail({
+          ans: s,
+          promoItemsJmespath:timelineThumbnailJmespath,
+          resizerKey,
+          resizerURL,
+          resizerWidth,
+          resizerHeight,
+          imageTitle,
+          imageCaption,
+          imageCredits,
+          videoSelect,
+        })
         return {
           ...(itemTitle && {
             title: { $: jmespath.search(s, itemTitle) || '' },
@@ -160,8 +173,9 @@ const rssTemplate = (
                 $1: body,
               },
             }),
-          ...(includePromo && img && { '#': img }),
-          // ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_embed: { $: s.promo_items.lead_art.embed_html }}),
+            ...(includePromo && timelineThumbnail && { '#1': timelineThumbnail }),
+            ...(includePromo && img && { '#2': img }),
+            // ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_embed: { $: s.promo_items.lead_art.embed_html }}),
           ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_id: s.promo_items.lead_art._id})
         }
       }),
@@ -201,6 +215,13 @@ export function Rss({ globalContent, customFields, arcSite, requestUri }) {
 Rss.propTypes = {
   customFields: PropTypes.shape({
     ...generatePropsForFeed('rss', PropTypes),
+    timelineThumbnailJmespath: PropTypes.string.tag({
+      label: 'Path to timeline PromoItem override',
+      group: 'Featured Media',
+      description:
+        'ANS fields to use for timeline featured media override, defaults to promo_items.basic',
+      defaultValue: 'promo_items.basic',
+    })
   }),
 }
 Rss.label = 'RSS Standard - 910'

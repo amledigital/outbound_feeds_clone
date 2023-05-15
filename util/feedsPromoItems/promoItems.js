@@ -176,6 +176,21 @@ export function BuildPromoItems() {
     }))
   }
   
+  this.timelineThumbnail = (options) => {
+    let imgs = this.parse(options)
+    if (!imgs) return
+    if (imgs && Array.isArray(imgs)) imgs = imgs[0];
+
+    return {
+      'timeline_thumbnail': {
+        '@url': imgs.url,
+        '@height': imgs.height,
+        '@width': imgs.width,
+        '@type': imgs.type
+      }
+    }
+  }
+
   this.leadArtImage = (options) => {
     let imgs = this.parse(options)
     if (!imgs) return
