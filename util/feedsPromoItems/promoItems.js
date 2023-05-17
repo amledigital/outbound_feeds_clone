@@ -181,6 +181,18 @@ export function BuildPromoItems() {
     if (!imgs) return
     if (imgs && Array.isArray(imgs)) imgs = imgs[0];
 
+    // use video thumbnail
+    if(imgs.medium === 'video'){
+      return {
+        'timeline_thumbnail': {
+          '@url': imgs.thumbnail,
+          '@height': imgs.height,
+          '@width': imgs.width,
+          '@type': imgs.thumbnailType
+        }
+      }
+    }
+
     return {
       'timeline_thumbnail': {
         '@url': imgs.url,
@@ -336,6 +348,12 @@ export function BuildPromoItems() {
               resizerWidth,
               resizerHeight,
             ),
+            thumbnailType: `image/${
+              ((match = thumbnail.match(imageRegex)) &&
+                match &&
+                match[0].replace('.', '').toLowerCase().replace('jpg', 'jpeg')) ||
+              'jpeg'
+            }`,
           }),
           url: videoStream.url,
           type: videoStream.stream_type === 'ts' ? 'video/MP2T' : 'video/mp4',
