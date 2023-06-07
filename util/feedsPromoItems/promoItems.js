@@ -182,13 +182,13 @@ export function BuildPromoItems() {
     if (imgs && Array.isArray(imgs)) imgs = imgs[0];
 
     // use video thumbnail
-    if(imgs.medium === 'video'){
+    if(imgs?.medium === 'video'){
       return {
         'timeline_thumbnail': {
-          '@url': imgs.thumbnail,
-          '@height': imgs.height,
-          '@width': imgs.width,
-          '@type': imgs.thumbnailType
+          '@url': imgs?.thumbnail,
+          '@height': imgs?.height,
+          '@width': imgs?.width,
+          '@type': imgs?.thumbnailType
         }
       }
     }

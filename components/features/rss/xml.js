@@ -163,8 +163,8 @@ const rssTemplate = (
               domain,
               resizerKey,
               resizerURL,
-              resizerWidth,
-              resizerHeight,
+              600,
+              0,
               videoSelect,
             )) &&
             body && {

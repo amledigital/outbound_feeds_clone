@@ -108,13 +108,40 @@ export function BuildContent() {
             resizeWidth,
             resizeHeight,
           ),
+          class: `pp-media__image`,
           alt: element.caption || '',
-          ...(element.height && { height: resizeHeight || element.height }),
-          ...(element.width && { width: resizeWidth || element.width }),
+          ...(element.height && { height: this.getImageHeight(element.width, element.height, resizeWidth, resizeHeight) }),
+          ...(element.width && { width: this.getImageWidth(element.width, element.height, resizeWidth, resizeHeight) }),
         },
       },
     },
   })
+
+  this.getImageHeight = (
+      width, height, resizeWidth, resizeHeight
+    ) => {
+      if(resizeHeight && resizeHeight!==0){
+        return resizeHeight;
+      }
+      else if(resizeWidth && resizeHeight === 0){
+        return Math.round((height/width)*resizeWidth);
+      }
+      
+      return height;
+  };
+
+  this.getImageWidth = (
+    width, height, resizeWidth, resizeHeight
+  ) => {
+    if(resizeWidth){
+      return resizeWidth;
+    }
+    else if(resizeHeight && resizeWidth === 0){
+      return Math.round((width/height)*resizeHeight);
+    }
+    
+    return height;
+};
   
   this.galleryImage = (
     element,
@@ -139,9 +166,10 @@ export function BuildContent() {
             resizeWidth,
             resizeHeight,
           ),
+          class: `pp-media__image`,
           alt: element.caption || '',
-          ...(element.height && { height: resizeHeight || element.height }),
-          ...(element.width && { width: resizeWidth || element.width }),
+          ...(element.height && { height: this.getImageHeight(element.width, element.height, resizeWidth, resizeHeight) }),
+          ...(element.width && { width: this.getImageWidth(element.width, element.height, resizeWidth, resizeHeight) }),
         },
       },
     },
