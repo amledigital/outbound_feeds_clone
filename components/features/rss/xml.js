@@ -176,7 +176,8 @@ const rssTemplate = (
             ...(includePromo && timelineThumbnail && { '#1': timelineThumbnail }),
             ...(includePromo && img && { '#2': img }),
             // ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_embed: { $: s.promo_items.lead_art.embed_html }}),
-          ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_id: s.promo_items.lead_art._id})
+          ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_id: s.promo_items.lead_art._id}),
+          pugpig_post_allow_automated_push: (s?.label?.push_alert?.text === 'True' ? 1 : 0)
         }
       }),
     },
