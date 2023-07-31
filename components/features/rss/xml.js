@@ -9,6 +9,8 @@ import { generatePropsForFeed } from '@wpmedia/feeds-prop-types'
 import { buildResizerURL } from '@wpmedia/feeds-resizer'
 import URL from 'url'
 const jmespath = require('jmespath')
+const { decode } = require('he')
+const { fragment } = require('xmlbuilder2')
 
 const rssTemplate = (
   elements,
@@ -170,11 +172,13 @@ const rssTemplate = (
             body && {
               'content:encoded': {
                 $0: (s.subheadlines?.basic ? `<h2>${s.subheadlines.basic}</h2>` : ''),
-                $1: body,
+                $1: (includePromo && img && img?.length>1 ? decode(fragment(img).toString()) : ''),
+                $2: body,
               },
             }),
             ...(includePromo && timelineThumbnail && { '#1': timelineThumbnail }),
-            ...(includePromo && img && { '#2': img }),
+            // ...(includePromo && img && { '#2': img }),
+            ...(includePromo && img && img.length<2 && { '#2': img }),
             // ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_embed: { $: s.promo_items.lead_art.embed_html }}),
           ...(s?.promo_items?.lead_art?.type==='video' && { lead_video_id: s.promo_items.lead_art._id}),
           pugpig_post_allow_automated_push: (s?.label?.push_alert?.text === 'True' ? 1 : 0)

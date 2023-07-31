@@ -111,9 +111,15 @@ export function BuildPromoItems() {
   }
 
   this.mediaTagPugPig = (options) => {
-    let imgs = this.parse(options)
+    let imgs = this.parse({...options, pugPigContent: true})
     if (!imgs) return
     if (imgs && !Array.isArray(imgs)) imgs = [imgs]
+
+    // Gallery
+    // Need to output gallery content at top of the article content in the pugpig formatting, as currently the lead)art does not support galleries
+    // Setting pugPigContent to true run alternate gallery creation. 
+    // We want to return this output outside of the media:content tags below
+    if(imgs.length > 1) return imgs;
 
     return imgs.map((img) => ({
       'media:content': {
@@ -266,7 +272,25 @@ export function BuildPromoItems() {
         galleryArray.push(
           this.image({
             ...options,
+            element: galleryItem
+          }),
+        )
+      }
+    })
+    return galleryArray
+  }
+
+  this.contentGallery = (options) => {
+    const galleryArray = []
+    const { element } = options
+    element.content_elements.forEach((galleryItem, galleryItemIdx) => {
+      if (galleryItem && galleryItem.url) {
+        galleryArray.push(
+          this.galleryImage({
+            ...options,
             element: galleryItem,
+            galleryId: element._id,
+            galleryIdx: galleryItemIdx
           }),
         )
       }
@@ -312,6 +336,72 @@ export function BuildPromoItems() {
           credits && { credits: credits }),
         ...(element.height && { height: resizerHeight || element.height }),
         ...(element.width && { width: resizerWidth || element.width }),
+      }
+    }
+  }
+
+  this.getImageHeight = (
+      width, height, resizeWidth, resizeHeight
+    ) => {
+      if(resizeHeight && resizeHeight!==0){
+        return resizeHeight;
+      }
+      else if(resizeWidth && resizeHeight === 0){
+        return Math.round((height/width)*resizeWidth);
+      }
+      
+      return height;
+  };
+
+  this.getImageWidth = (
+    width, height, resizeWidth, resizeHeight
+  ) => {
+    if(resizeWidth){
+      return resizeWidth;
+    }
+    else if(resizeHeight && resizeWidth === 0){
+      return Math.round((width/height)*resizeHeight);
+    }
+    
+    return height;
+  };
+
+  this.galleryImage = ({
+    element,
+    resizerKey,
+    resizerURL,
+    resizerWidth,
+    resizerHeight,
+    imageTitle,
+    imageCaption,
+    imageCredits,
+    galleryId,
+    galleryIdx
+  }) => {
+    if (element && element.url) {
+      let title, caption, credits
+      return {
+        figure: {
+          '@': {
+            class: `pp-media pp-media--gallery${galleryIdx > 0 ? ' is-hidden' : ''}`,
+            'data-image-group': galleryId
+          },
+          img: {
+            '@': {
+              src: buildResizerURL(
+                element.url,
+                resizerKey,
+                resizerURL,
+                resizerWidth,
+                resizerHeight,
+              ),
+              class: `pp-media__image`,
+              alt: element.caption || '',
+              ...(element.height && { height: this.getImageHeight(element.width, element.height, resizerWidth, resizerHeight) }),
+              ...(element.width && { width: this.getImageWidth(element.width, element.height, resizerWidth, resizerHeight) }),
+            },
+          },
+        },
       }
     }
   }
@@ -382,11 +472,25 @@ export function BuildPromoItems() {
     imageCaption = 'caption',
     imageCredits = 'credits.by[].name',
     videoSelect,
+    pugPigContent = false
   }) => {
     let item
     const element =
       promoItemsJmespath && jmespath.search(ans, promoItemsJmespath)
     if (element && element.type) {
+      if(element.type === 'gallery' && pugPigContent ){
+        return this.contentGallery({
+          element,
+          resizerKey,
+          resizerURL,
+          resizerWidth,
+          resizerHeight,
+          imageTitle,
+          imageCaption,
+          imageCredits,
+        }); 
+      }
+        
       switch (element.type) {
         case 'gallery':
           item = this.gallery({

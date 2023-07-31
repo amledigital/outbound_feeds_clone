@@ -96,3 +96,7 @@ For more information on developing outbound feeds:
 - [Utilities](https://redirector.arcpublishing.com/alc/arc-products/arcio/user-docs/outbound-feeds-development-utilities/)
 - [Content Source](https://redirector.arcpublishing.com/alc/arc-products/arcio/user-docs/outbound-feeds-development-content-source/)
 - [Output Types](https://redirector.arcpublishing.com/alc/arc-products/arcio/user-docs/outbound-feeds-development-output-types/)
+
+
+Example URLS:
+http://localhost/arc/outboundfeeds/rss/category/news/?outputType=xml&_website=910news
